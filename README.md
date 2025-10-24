@@ -4,12 +4,12 @@ A privacy-first, AI-powered journaling web application that allows users to reco
 
 ## Features
 
-- 📝 Text and voice journaling
-- 🔒 Optional client-side encryption
-- 🤖 AI-powered summarization and insights
-- 📊 Weekly reflection generation
-- 🎨 Clean, responsive design
-- 🔐 Privacy-first architecture
+- Text and voice journaling
+- Optional client-side encryption
+- AI-powered summarization and insights
+- Weekly reflection generation
+- Clean, responsive design
+- Privacy-first architecture
 
 ## Architecture
 
