@@ -35,7 +35,7 @@ from app.models import models
 
 # Create database tables on startup
 # In production, use Alembic migrations instead
-models.Base.metadata.create_all(bind=engine)
+models.metadata.create_all(bind=engine)
 
 # Initialize FastAPI application with metadata
 app = FastAPI(
