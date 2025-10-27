@@ -45,14 +45,21 @@ export const useAuthStore = create<AuthStore>()(
       login: async (credentials: LoginCredentials) => {
         set({ isLoading: true, error: null })
         try {
+          // Convert camelCase to snake_case for backend
+          const apiCredentials = {
+            email: credentials.email,
+            password: credentials.password,
+            remember_me: credentials.rememberMe
+          }
+          
           // Call API to authenticate user
-          const response = await authApi.login(credentials)
-          const { user, accessToken, refreshToken } = response.data
+          const response = await authApi.login(apiCredentials)
+          const { user, access_token, refresh_token } = response.data
           
           // Update state with user data and tokens
           set({
             user,
-            tokens: { accessToken, refreshToken },
+            tokens: { accessToken: access_token, refreshToken: refresh_token },
             isAuthenticated: true,
             isLoading: false,
             error: null,
@@ -60,7 +67,7 @@ export const useAuthStore = create<AuthStore>()(
         } catch (error: any) {
           // Handle login errors
           set({
-            error: error.response?.data?.message || 'Login failed',
+            error: error.response?.data?.detail || error.response?.data?.message || 'Login failed',
             isLoading: false,
           })
           throw error
@@ -77,12 +84,12 @@ export const useAuthStore = create<AuthStore>()(
         try {
           // Call API to register new user
           const response = await authApi.register(credentials)
-          const { user, accessToken, refreshToken } = response.data
+          const { user, access_token, refresh_token } = response.data
           
           // Update state with new user data and tokens
           set({
             user,
-            tokens: { accessToken, refreshToken },
+            tokens: { accessToken: access_token, refreshToken: refresh_token },
             isAuthenticated: true,
             isLoading: false,
             error: null,
@@ -90,7 +97,7 @@ export const useAuthStore = create<AuthStore>()(
         } catch (error: any) {
           // Handle registration errors
           set({
-            error: error.response?.data?.message || 'Registration failed',
+            error: error.response?.data?.detail || error.response?.data?.message || 'Registration failed',
             isLoading: false,
           })
           throw error
@@ -121,11 +128,11 @@ export const useAuthStore = create<AuthStore>()(
         try {
           // Call API to refresh access token
           const response = await authApi.refreshToken(tokens.refreshToken)
-          const { accessToken } = response.data
+          const { access_token } = response.data
           
           // Update access token while keeping refresh token
           set({
-            tokens: { ...tokens, accessToken },
+            tokens: { ...tokens, accessToken: access_token },
           })
         } catch (error) {
           // Refresh failed, logout user
