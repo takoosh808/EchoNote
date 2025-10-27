@@ -24,6 +24,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project
 COPY . .
 
+# Install additional dependencies for development
+RUN pip install --no-cache-dir python-multipart
+
 # Create non-root user
 RUN adduser --disabled-password --gecos '' appuser
 RUN chown -R appuser:appuser /app
